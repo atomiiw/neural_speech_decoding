@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import h5py
 from torch.utils.data import Dataset
-import dareblopy as db
+# import dareblopy as db
 import torch.utils
 import torch.utils.data
 cpu = torch.device('cpu')
@@ -243,13 +243,15 @@ class TFRecordsDataset:
         self.iterator = torch.utils.data.DataLoader(self.dataset,
                                                batch_size=self.batch_size,
                                                shuffle=True if (self.train and not self.infer) else False,
-                                               drop_last=True if self.train else False)
+                                               drop_last=True if self.train else False,
+                                               generator=torch.Generator(device='cpu'))
     def reset(self, lod, batch_size):
         if batch_size!=self.batch_size:
             self.iterator = torch.utils.data.DataLoader(self.dataset,
                                                batch_size=batch_size,
                                                shuffle=True if (self.train and not self.infer) else False,
-                                               drop_last=True if self.train else False)
+                                               drop_last=True if self.train else False,
+                                               generator=torch.Generator(device='cpu'))
         self.batch_size = batch_size
         self.dataset.current_lod=lod
     def __iter__(self):

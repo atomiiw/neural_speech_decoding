@@ -73,13 +73,16 @@ class NegSTOILoss(nn.Module):
         self.do_resample = do_resample
 
         # Dependant from FS
-        if self.do_resample:
-            sample_rate = FS
-            self.resample = torchaudio.transforms.Resample(
-                orig_freq=self.sample_rate,
-                new_freq=FS,
-                resampling_method='sinc_interpolation',
-            )
+        # DISABLED: Resample causes CUDA device mismatch with torch 1.12.1 + torchaudio 0.12.1
+        # and it's not used in forward() anyway (see lines 128-129)
+        # if self.do_resample:
+        #     sample_rate = FS
+        #     self.resample = torchaudio.transforms.Resample(
+        #         orig_freq=self.sample_rate,
+        #         new_freq=FS,
+        #         resampling_method='sinc_interpolation',
+        #     )
+        sample_rate = FS  # Use FS directly since we're not resampling
         self.win_len = FFT_size * 2 - 1
         self.nfft =  self.win_len
         win = torch.from_numpy(np.hanning(self.win_len + 2)[1:-1]).float()
