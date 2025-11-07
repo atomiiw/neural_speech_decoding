@@ -2321,7 +2321,7 @@ class ECoGMapping_Bottleneck(nn.Module):
             input_channel=latent_channel,
         )
 
-    def forward(self, ecog, ):
+    def forward(self, ecog, return_latent=False):
         elec_length = int(ecog[0].shape[-1] ** 0.5)
         x = ecog
         x = x.reshape([-1, 1, x.shape[1], elec_length, elec_length])
@@ -2347,6 +2347,11 @@ class ECoGMapping_Bottleneck(nn.Module):
         #C'*128
         x_common = F.leaky_relu(self.norm6(x), 0.2)
         # print (x_common.shape)
+
+        # If only latent representation is requested, return it
+        if return_latent:
+            return x_common
+
         if self.GR:
             classified_Speakers = self.Speaker_Classifier_GR(x_common)
         components = self.prediction_head(x_common)

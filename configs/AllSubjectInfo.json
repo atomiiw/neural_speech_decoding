@@ -1,6 +1,6 @@
 {
     "Shared":{
-        "RootPath":"/scratch/xc1490/home/projects/ecog/ALAE_1023/data/data/",
+        "RootPath":"./example_data/",
         "ORG_WAVE_FS": 24414.1,
         "DOWN_WAVE_FS": 16000,
         "ORG_ECOG_FS": 3051.7625,

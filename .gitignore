@@ -1,6 +1,7 @@
 notebooks
 model_viz.py
 data
+example_data/*.h5
 configs/ecog_style2_a.yaml
 configs/ecog_style2_a_male.yaml
 AllSubjectInfo.json
